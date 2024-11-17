@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alertas de Vencimiento</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <h1>Productos próximos a vencer</h1>
+    <div id="alertasVencimiento"></div>
+
+    <script>
+        // Llama al archivo PHP y obtiene los productos próximos a vencer
+        fetch('productos_vencimiento.php')
+            .then(response => response.json())
+            .then(data => {
+                const alertasDiv = document.getElementById('alertasVencimiento');
+
+                if (data.length > 0) {
+                    data.forEach(producto => {
+                        const alerta = document.createElement('p');
+                        alerta.textContent = Producto: ${producto.nombre} - Vence el: ${producto.fecha_vencimiento};
+                        alerta.style.color = 'red';  // Puedes estilizarlo como prefieras
+                        alertasDiv.appendChild(alerta);
+                    });
+                } else {
+                    alertasDiv.textContent = "No hay productos próximos a vencer.";
+                }
+            })
+            .catch(error => {
+                console.error('Error al obtener productos próximos a vencer:', error);
+            });
+    </script>
+</body>
+</html>
